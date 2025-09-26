@@ -1,0 +1,21 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor / OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Jupyter notebooks (if you want to exclude them)
+*.ipynb
+*.ipynb_checkpoints/
+
+# Logs / misc
+*.log
