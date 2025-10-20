@@ -161,7 +161,7 @@ def create_layout():
                             "noteworthy is that it leads all countries outside North America, with "
                             "nearly 100 daily doses prescribed per 1,000 young people. This "
                             "positions Sweden as an important case study for understanding ADHD "
-                            "treatment practices within a Nordic welfare state context",
+                            "treatment practices within a Nordic welfare state context.",
                         ],
                         style={"fontSize": "17px", "color": TEXT_COLOR},
                     ),
