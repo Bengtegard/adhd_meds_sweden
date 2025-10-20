@@ -1,13 +1,24 @@
+# ============================================================================
+# MAIN APPLICATION FILE
+# ============================================================================
+# Entry point for the ADHD medication dashboard Dash application.
+# Initializes the app, loads data, registers callbacks, and starts the server.
+# ============================================================================
+
 import sys
 import os
 import dash
 
 # Add src to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
 
-from layouts import create_layout
-from callbacks import register_callbacks
-from data_processing import load_processed_csv, load_and_process_all_data, load_geojson
+from src.layouts import create_layout
+from src.callbacks import register_callbacks
+from src.data_processing import (
+    load_processed_csv,
+    load_and_process_all_data,
+    load_geojson,
+)
 
 # Initialize app
 app = dash.Dash(__name__)

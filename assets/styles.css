@@ -1,0 +1,41 @@
+/* Remove all default browser margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Dash app container */
+#react-entry-point {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Remove default Dash styling */
+._dash-icy {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0.8em 0;        /* Add vertical spacing back to paragraphs */
+    line-height: 1.6;       /* Improve text readability */
+}
+
+
+
+ul, ol {
+    margin: 0.8em 0 1.2em 2em;  /* Space lists and indent bullets */
+}
+
+section {
+    margin-bottom: 2rem;    /* Separate large content sections */
+}
