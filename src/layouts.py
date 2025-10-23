@@ -262,7 +262,8 @@ def create_layout():
                 [
                     html.P(
                         [
-                            "In 2019 Sweden ranked third worldwide in ADHD medication consumption, "
+                            "In 2019 Sweden ranked third worldwide in Attention-Deficit/"
+                            "Hyperactivity Disorder (ADHD) medication consumption, "
                             "with 99.27 defined daily doses per 1,000 children and adolescents per "
                             "day (DDD/TID). Only Canada (113.60 DDD/TID) and the United States "
                             "(110.28 DDD/TID) reported higher levels, while Norway (74.75 DDD/TID) and "
@@ -279,13 +280,11 @@ def create_layout():
                     html.P(
                         [
                             "Sweden has since 2006 shown a dramatic increase in the number of "
-                            "children and adolescents diagnosed with Attention-Deficit/"
-                            "Hyperactivity Disorder (ADHD) according to data published by the "
-                            "National Board of Health and Welfare in 2024",
+                            "children and adolescents diagnosed with ADHD according to data published by the Swedish National Board of Health and Welfare (Socialstyrelsen) in 2024",
                             html.Sup("[2]", style={"fontSize": "13px"}),
                             ". The global prevalence of ADHD is approximately 5.9% in children "
                             "and adolescents and 2.5% – 2.8% in adults, with rates broadly "
-                            "similar worldwide but consistently higher in males than females",
+                            "similar worldwide but consistently higher in males than in females",
                             html.Sup("[3]", style={"fontSize": "13px"}),
                             ". This contrasts with the proportion of children diagnosed with "
                             "ADHD in Sweden in 2022, where the estimated prevalence among those "
@@ -314,7 +313,7 @@ def create_layout():
                     ),
                     html.P(
                         [
-                            "While actual ADHD prevalence is believed to be stable over time, diagnoses continue to rise steadily. According to a 2024 analysis by the Swedish National Board of Health and Welfare, prevalence shows no signs of slowing — projections suggest it could reach 15% of boys and 11% of girls in the near future",
+                            "While actual ADHD prevalence is believed to be stable over time, diagnoses continue to rise steadily. According to a 2024 analysis by Socialstyrelsen, prevalence shows no signs of slowing — projections suggest it could reach 15% of boys and 11% of girls in the near future",
                             html.Sup("[4]", style={"fontsize": "13px"}),
                             ". It's unclear whether this rise reflects better identification of people who truly have ADHD, or whether diagnoses are exceeding actual prevalence — making it increasingly important to understand what's driving this development. ",
                             "This dashboard is designed to make these trends easy to explore interactively. Most reports are static, but here you can actively engage with the data — select different demographics, hover over charts to see relevant measures, and press play to animate changes over time. Key observations are summarized below the charts, but these are by no means exhaustive. Dive into the data yourself and start exploring.",
@@ -346,10 +345,7 @@ def create_layout():
                     ),
                     html.P(
                         [
-                            "This project uses open data from",
-                            html.I(
-                                " the Swedish National Board of Health and Welfare (Socialstyrelsen) "
-                            ),
+                            "This project uses open data from Socialstyrelsen's ",
                             html.A(
                                 "Statistikdatabas för läkemedel",
                                 href="https://www.socialstyrelsen.se/statistik-och-data/statistik/statistikdatabasen",
@@ -715,7 +711,7 @@ def create_layout():
                                 },
                             ),
                             html.Li(
-                                "Total ADHD medication use across both sexes peaked at 8.3% for ages 15–19 in 2024, up from 5.4% in 2020 - an increase of almost 54%.",
+                                "Total ADHD medication use across both sexes peaked at 8.3% for ages 15–19 in 2024 (up from 5.4% in 2020) - an increase of almost 54%.",
                                 style={
                                     "marginBottom": "15px",
                                     "fontSize": "17px",

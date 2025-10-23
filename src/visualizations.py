@@ -39,6 +39,16 @@ def apply_responsive_layout(
                 x=0.5,
                 font=dict(size=7),
             )
+        elif chart_type == "bar":
+            margin = dict(l=60, r=40, t=100, b=60)
+            legend_config = dict(
+                title="Year",
+                orientation="h",
+                yanchor="bottom",
+                y=-0.3,
+                xanchor="center",
+                x=0.5,
+            )
         else:
             margin = dict(l=40, r=20, t=40, b=40)
             legend_config = dict(
@@ -63,6 +73,16 @@ def apply_responsive_layout(
                 xanchor="left",
                 x=1.02,  # Position outside chart area
                 font=dict(size=9),
+            )
+        elif chart_type == "bar":
+            margin = dict(l=60, r=40, t=100, b=60)
+            legend_config = dict(
+                title="Year",
+                orientation="h",
+                yanchor="bottom",
+                y=-0.3,
+                xanchor="center",
+                x=0.5,
             )
         else:
             margin = dict(l=50, r=30, t=50, b=50)
@@ -90,6 +110,16 @@ def apply_responsive_layout(
                 xanchor="left",
                 x=1.02,
                 font=dict(size=10),
+            )
+        elif chart_type == "bar":
+            margin = dict(l=60, r=40, t=100, b=60)
+            legend_config = dict(
+                title="Year",
+                orientation="h",
+                yanchor="bottom",
+                y=-0.3,
+                xanchor="center",
+                x=0.5,
             )
         else:
             margin = dict(l=65, r=40, t=60, b=65)

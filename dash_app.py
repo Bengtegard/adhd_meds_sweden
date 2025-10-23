@@ -31,8 +31,11 @@ geojson_counties = load_geojson()
 # Assign layout
 app.layout = create_layout()
 
+# Expose Flash server for gunicorn
+server = app.server
+
 # Register callbacks
 register_callbacks(app, df_grouped, df_grouped_regional, geojson_counties)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(threaded=True)
