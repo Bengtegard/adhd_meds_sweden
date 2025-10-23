@@ -92,7 +92,8 @@ conclusion_references_style = {
 
 def get_chart_container_style(breakpoint, **overrides):
     """
-    Changes the chart container area depending on screen size
+    Changes the chart container area depending on screen size.
+    Ensures graphs stay within container and shadows are visible.
     """
     styles = {
         "mobile": {
@@ -100,18 +101,24 @@ def get_chart_container_style(breakpoint, **overrides):
             "margin": "0 auto",
             "width": "100%",
             "padding": "0 10px",
+            "minHeight": "350px",  # ensure enough height
+            "overflow": "visible",  # shadows not clipped
         },
         "tablet": {
             "maxWidth": "900px",
             "margin": "0 auto",
             "width": "100%",
             "padding": "0 15px",
+            "minHeight": "400px",
+            "overflow": "visible",
         },
         "desktop": {
             "maxWidth": "1000px",
             "margin": "0 auto",
             "width": "100%",
             "padding": "0 20px",
+            "minHeight": "500px",
+            "overflow": "visible",
         },
         "large": {
             "maxWidth": "1200px",
@@ -119,10 +126,11 @@ def get_chart_container_style(breakpoint, **overrides):
             "width": "100%",
             "padding": "0 30px",
             "minHeight": "800px",
+            "overflow": "visible",
         },
     }
     style = styles.get(breakpoint, styles["desktop"])
-    style.update(overrides)
+    style.update(overrides)  # allow further overrides
     return style
 
 
@@ -669,6 +677,8 @@ def create_layout():
                             dcc.Graph(
                                 id="sex-ratio-plot",
                                 style={
+                                    "height": "100%",
+                                    "width": "100%",
                                     "backgroundColor": BG_COLOR,
                                     "borderRadius": "12px",
                                     "boxShadow": "0 4px 12px rgba(0,0,0,0.3)",
