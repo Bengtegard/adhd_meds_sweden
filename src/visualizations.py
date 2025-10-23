@@ -109,7 +109,7 @@ def apply_responsive_layout(
         font_size = 12
         # Large screens have enough space
         if chart_type == "ratio":
-            margin = dict(l=70, r=130, t=70, b=70)  # Still extra space
+            margin = dict(l=70, r=130, t=70, b=70)
             legend_config = dict(
                 orientation="v",
                 yanchor="top",
@@ -117,6 +117,16 @@ def apply_responsive_layout(
                 xanchor="left",
                 x=1.02,
                 font=dict(size=11),
+            )
+        elif chart_type == "bar":
+            margin = dict(l=60, r=40, t=100, b=60)
+            legend_config = dict(
+                title="Year",
+                orientation="h",
+                yanchor="bottom",
+                y=-0.3,
+                xanchor="center",
+                x=0.5,
             )
         else:
             margin = dict(l=75, r=50, t=70, b=50)
