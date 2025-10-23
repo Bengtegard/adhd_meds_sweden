@@ -19,6 +19,7 @@ from config import (
     GENDER_COLORS,
     bengtegard_template,
 )
+from layouts import get_chart_container_style, get_controls_style
 
 # Import data processing functions
 from data_processing import (
@@ -33,6 +34,7 @@ from visualizations import (
     plot_gender_ratios,
     prepare_choropleth_data,
     get_national_trend_context,
+    apply_responsive_layout,
 )
 
 # ============================================================================
@@ -54,15 +56,67 @@ geojson_counties = load_geojson()
 
 
 def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_counties):
+
+    # ============================================================================
+    # UPDATE CHART AREA AND SIDEBARS DYNAMICALLY
+    # ============================================================================
+
+    @app.callback(
+        Output("line-chart-container", "style"),
+        Output("choropleth-chart-container", "style"),
+        Output("heatmap-chart-container", "style"),
+        Output("ratio-chart-container", "style"),
+        Input("breakpoint", "widthBreakpoint"),
+    )
+    def update_all_chart_containers(breakpoint):
+        """Dynamically adjust all chart container CSS for responsiveness."""
+
+        # Base styles
+        default_style = get_chart_container_style(breakpoint)
+
+        if breakpoint == "desktop":
+            line_style = get_chart_container_style(breakpoint, maxWidth="1100px")
+        else:
+            line_style = default_style
+
+        if breakpoint == "desktop":
+            ratio_style = get_chart_container_style(breakpoint, maxWidth="900px")
+        elif breakpoint == "large":
+            ratio_style = get_chart_container_style(breakpoint, maxWidth="1000px")
+        else:
+            ratio_style = default_style
+
+        choropleth_style = default_style
+        heatmap_style = default_style
+
+        return line_style, choropleth_style, heatmap_style, ratio_style
+
+    @app.callback(
+        Output("line-controls-style", "style"),
+        Output("choropleth-controls-style", "style"),
+        Output("heatmap-controls-style", "style"),
+        Input("breakpoint", "widthBreakpoint"),
+    )
+    def update_all_controls_style(breakpoint):
+        style = get_controls_style(breakpoint)
+        return style, style, style
+
     @app.callback(
         Output("line-animation", "figure"),
         [
             Input("medication-dropdown", "value"),
             Input("sex-checklist", "value"),
             Input("age-checklist", "value"),
+            Input("breakpoint", "widthBreakpoint"),
+        ],
+        [
+            State("breakpoint", "width"),
+            State("breakpoint", "height"),
         ],
     )
-    def update_line_chart(selected_medication, selected_genders, selected_ages):
+    def update_line_chart(
+        selected_medication, selected_genders, selected_ages, bp, width, height
+    ):
         """Update main line animation chart based on user selections."""
 
         # Handle 'separator' selection
@@ -113,8 +167,6 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             df_anim,
             x="year",
             y="patients_per_1000",
-            height=850,
-            width=1050,
             color="Label",
             line_shape="spline",
             facet_row="age_group",
@@ -183,6 +235,8 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             "<extra></extra>"
         )
 
+        hover_font_size = 10 if len(selected_ages) > 2 else 12
+
         # Update initial traces
         for trace in line_fig.data:
             trace.update(
@@ -192,7 +246,10 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 line=dict(smoothing=1.3),
                 hovertemplate=hover_template,
                 hoverlabel=dict(
-                    font=dict(color=label_colors.get(trace.name, "white")),
+                    font=dict(
+                        size=hover_font_size,
+                        color=label_colors.get(trace.name, "white"),
+                    ),
                     bgcolor=BG_COLOR,
                     bordercolor=BG_COLOR,  # optional
                 ),
@@ -204,7 +261,10 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 trace.update(
                     hovertemplate=hover_template,
                     hoverlabel=dict(
-                        font=dict(color=label_colors.get(trace.name, "white")),
+                        font=dict(
+                            size=hover_font_size,
+                            color=label_colors.get(trace.name, "white"),
+                        ),
                         bgcolor=BG_COLOR,
                         bordercolor=BG_COLOR,
                     ),
@@ -242,6 +302,14 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             font=dict(size=14, color=TEXT_COLOR),
         )
 
+        line_fig = apply_responsive_layout(
+            line_fig,
+            bp,
+            width,
+            height,
+            chart_type="line",
+        )
+
         return line_fig
 
     # ============================================================================
@@ -251,9 +319,14 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
         Output("bar-chart", "figure"),
         [
             Input("show-bar-chart-btn", "n_clicks"),
+            Input("breakpoint", "widthBreakpoint"),
+        ],
+        [
+            State("breakpoint", "width"),
+            State("breakpoint", "height"),
         ],
     )
-    def barplot_20_vs_24(n_clicks):
+    def barplot_20_vs_24(n_clicks, bp, width, height):
         """
         Create a grouped bar plot showing ADHD medication use among 5–24-year-olds
         by sex (Boys/Girls) for years 2020 and 2024.
@@ -296,8 +369,6 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
 
         # Update layout to match Swedish style
         bar_plot.update_layout(
-            height=550,
-            width=1050,
             template=bengtegard_template,
             title=dict(
                 text="ADHD Medication Use Among Individuals Aged 5–24, by Sex: 2020 vs 2024",
@@ -340,6 +411,14 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
 
         bar_plot.update_traces(width=0.36, hovertemplate=hover_template)
 
+        bar_plot = apply_responsive_layout(
+            bar_plot,
+            bp,
+            width,
+            height,
+            chart_type="bar",
+        )
+
         return bar_plot
 
     # Show/hide the chart when button is clicked
@@ -368,10 +447,21 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             Input("heatmap-county-dropdown", "value"),
             Input("heatmap-sex-radio", "value"),
             Input("heatmap-age-radio", "value"),
+            Input("breakpoint", "widthBreakpoint"),
+        ],
+        [
+            State("breakpoint", "width"),
+            State("breakpoint", "height"),
         ],
     )
     def update_heatmap(
-        selected_medication, selected_county, selected_gender, selected_age
+        selected_medication,
+        selected_county,
+        selected_gender,
+        selected_age,
+        bp,
+        width,
+        height,
     ):
         """Update county-level heatmap for selected medication, sex, and age."""
 
@@ -414,14 +504,17 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 },
                 xaxis_title="Year",
                 yaxis_title="County",
-                height=800,
-                width=1000,
                 template="bengtegard",
                 paper_bgcolor=BG_COLOR,
                 plot_bgcolor=BG_COLOR,
                 font_color=TEXT_COLOR,
                 coloraxis_colorbar=dict(title="Patients per 1000"),
             )
+            heatmap_fig.update_coloraxes(
+                colorbar_tickfont_size=10,
+                colorbar_tickfont_color=TEXT_COLOR,
+            )
+
             # Update axes and add a custom hovertemplate
             heatmap_fig.update_xaxes(
                 tickmode="array",
@@ -437,6 +530,9 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 ),
                 hoverlabel=dict(bgcolor=TEXT_COLOR),
             )
+
+            # Apply breakpoints configuration
+            heatmap_fig = apply_responsive_layout(heatmap_fig, bp, width, height)
 
             note_style = {
                 "fontSize": "11px",
@@ -463,13 +559,11 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 hovermode="x",
                 xaxis_title="Year",
                 yaxis_title="Patients per 1000 inhabitants",
-                height=700,
-                width=1000,
                 template="bengtegard",
                 paper_bgcolor=BG_COLOR,
                 plot_bgcolor=BG_COLOR,
                 font_color=TEXT_COLOR,
-                showlegend=False,
+                legend_title_text="Age Group",
             )
             # Update axes and add a custom hovertemplate
             heatmap_fig.update_xaxes(
@@ -503,6 +597,10 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 font=dict(size=14, color=FACET_COLORS.get(last_point["age_group"])),
                 xanchor="left",
             )
+
+            # Apply breakpoints configuration
+            heatmap_fig = apply_responsive_layout(heatmap_fig, bp, width, height)
+
             # Show note only when a specific county is selected
             note_style = {
                 "fontSize": "11px",
@@ -521,9 +619,16 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
 
     @app.callback(
         Output("sex-ratio-plot", "figure"),
-        Input("ratio-medication-dropdown", "value"),
+        [
+            Input("ratio-medication-dropdown", "value"),
+            Input("breakpoint", "widthBreakpoint"),
+        ],
+        [
+            State("breakpoint", "width"),
+            State("breakpoint", "height"),
+        ],
     )
-    def update_gender_ratio(selected_medication):
+    def update_gender_ratio(selected_medication, bp, width, height):
         """Update the sex ratio chart based on medication selection."""
 
         if selected_medication == "separator":
@@ -537,6 +642,14 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
         fig.update_layout(
             title=f"Boys-to-Girls ADHD Prescription Ratio by Age Group - {selected_medication}"
         )
+        fig = apply_responsive_layout(
+            fig,
+            bp,
+            width,
+            height,
+            chart_type="ratio",
+        )
+
         return fig
 
     # ============================================================================
@@ -549,9 +662,14 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             Input("choropleth-year-slider", "value"),
             Input("choropleth-sex-radio", "value"),
             Input("choropleth-age-radio", "value"),
+            Input("breakpoint", "widthBreakpoint"),
+        ],
+        [
+            State("breakpoint", "width"),
+            State("breakpoint", "height"),
         ],
     )
-    def update_choropleth(year, sex, age_group):
+    def update_choropleth(year, sex, age_group, bp, width, height):
         """Update choropleth map and statistics based on selections."""
 
         if geojson_counties is None:
@@ -568,7 +686,6 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 font_size=16,
             )
             fig.update_layout(
-                height=700,
                 template="bengtegard",
                 paper_bgcolor=BG_COLOR,
                 font_color=TEXT_COLOR,
@@ -591,7 +708,6 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 font_size=16,
             )
             fig.update_layout(
-                height=700,
                 template="bengtegard",
                 paper_bgcolor=BG_COLOR,
                 font_color=TEXT_COLOR,
@@ -639,8 +755,7 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             hoverlabel=dict(bgcolor=BG_COLOR, font=dict(color=TEXT_COLOR)),
         )
         map_fig.update_layout(
-            height=600,
-            width=900,
+            dragmode=False,
             margin={"r": 0, "t": 50, "l": 0, "b": 0},
             paper_bgcolor=BG_COLOR,
             plot_bgcolor=BG_COLOR,
@@ -655,13 +770,14 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             },
             coloraxis_colorbar=dict(
                 title="Patients per 1000",
+                tickfont=dict(size=10, color=TEXT_COLOR),
                 thickness=11,
                 len=0.7,
                 x=0.8,
                 tickmode="linear",
                 tick0=0,
                 dtick=20,
-                tickformat=".1f",
+                # tickformat=".1f",
             ),
         )
         map_fig.add_annotation(
@@ -721,6 +837,7 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             stats = html.Div(
                 [html.H4("No data available", style={"color": TEXT_COLOR})]
             )
+        map_fig = apply_responsive_layout(map_fig, bp, width, height, chart_type="map")
 
         return map_fig, stats
 

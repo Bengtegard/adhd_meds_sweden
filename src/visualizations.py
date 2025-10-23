@@ -13,6 +13,148 @@ import plotly.io as pio
 from config import BG_COLOR, TEXT_COLOR, FACET_COLORS, TEXT_COLOR
 
 
+def apply_responsive_layout(
+    fig, breakpoint, width=None, height=None, chart_type="line"
+):
+    """
+    Adjust figure layout based on breakpoint and optionally width/height.
+    chart_type: 'line', 'bar', 'ratio' or 'map'
+
+    KEY FIX: Ratio charts need more right margin for legend placement
+    """
+    fig.update_layout(autosize=True)  # Changed from False - lets it adapt
+
+    # Define configs per breakpoint
+    if breakpoint == "mobile":
+        h = {"bar": 300, "ratio": 350}.get(chart_type, min(height or 400, 400))
+        font_size = 8
+        # Ratio charts: legend below (horizontal), more bottom margin
+        if chart_type == "ratio":
+            margin = dict(l=40, r=20, t=40, b=80)  # More bottom space for legend
+            legend_config = dict(
+                orientation="h",
+                yanchor="bottom",
+                y=-0.25,
+                xanchor="center",
+                x=0.5,
+                font=dict(size=7),
+            )
+        else:
+            margin = dict(l=40, r=20, t=40, b=40)
+            legend_config = dict(
+                orientation="h",
+                yanchor="bottom",
+                y=-0.2,
+                xanchor="center",
+                x=0.5,
+                font=dict(size=7),
+            )
+
+    elif breakpoint == "tablet":
+        h = {"bar": 400, "ratio": 450}.get(chart_type, min(height or 500, 500))
+        font_size = 10
+        # Ratio charts need MORE right margin for legend
+        if chart_type == "ratio":
+            margin = dict(l=50, r=100, t=50, b=50)  # Extra right space
+            legend_config = dict(
+                orientation="v",
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=1.02,  # Position outside chart area
+                font=dict(size=9),
+            )
+        else:
+            margin = dict(l=50, r=30, t=50, b=50)
+            legend_config = dict(
+                orientation="v",
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=1.02,
+                font=dict(size=8),
+            )
+
+    elif breakpoint == "desktop":
+        h = {"bar": 500, "ratio": 550, "map": 550}.get(
+            chart_type, min(height or 650, 650)
+        )
+        font_size = 12
+        # Ratio charts need MORE right margin
+        if chart_type == "ratio":
+            margin = dict(l=65, r=80, t=60, b=65)  # Extra right space
+            legend_config = dict(
+                orientation="v",
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=1.02,
+                font=dict(size=10),
+            )
+        else:
+            margin = dict(l=65, r=40, t=60, b=65)
+            legend_config = dict(
+                orientation="v",
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=1.02,
+                font=dict(size=10),
+            )
+
+    elif breakpoint == "large":
+        h = {"bar": 550, "ratio": 650, "map": 700}.get(
+            chart_type, min(height or 800, 800)
+        )
+        font_size = 12
+        # Large screens have enough space
+        if chart_type == "ratio":
+            margin = dict(l=70, r=130, t=70, b=70)  # Still extra space
+            legend_config = dict(
+                orientation="v",
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=1.02,
+                font=dict(size=11),
+            )
+        else:
+            margin = dict(l=75, r=50, t=70, b=50)
+            legend_config = dict(
+                orientation="v",
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=1.02,
+                font=dict(size=8),
+            )
+
+    else:
+        # Fallback
+        h = min(height or 600, 600)
+        font_size = 12
+        margin = dict(l=60, r=40, t=60, b=60)
+        legend_config = dict(
+            orientation="v",
+            yanchor="top",
+            y=0.99,
+            xanchor="left",
+            x=1.02,
+            font=dict(size=10),
+        )
+
+    # Apply layout updates
+    fig.update_layout(
+        height=h,
+        font=dict(size=font_size),
+        margin=margin,
+        legend=legend_config,
+        showlegend=True,
+    )
+
+    return fig
+
+
 def plot_gender_ratios(df):
     """Calculate Boys/Girls prescription ratios and plot by age group."""
     gender_only = df[df["sex"].isin(["Boys", "Girls"])].copy()
@@ -55,8 +197,6 @@ def plot_gender_ratios(df):
         xaxis_title="Year",
         xaxis=dict(tick0=2006, dtick=2),
         legend_title_text="Age Group",
-        height=700,
-        width=1000,
         template="bengtegard",
         paper_bgcolor=BG_COLOR,
         plot_bgcolor=BG_COLOR,

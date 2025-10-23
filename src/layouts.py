@@ -7,6 +7,7 @@
 # ============================================================================
 
 from dash import html, dcc
+from dash_breakpoints import WindowBreakpoints
 from config import BG_COLOR, TEXT_COLOR, COUNTY_MAP
 
 # ============================================================================
@@ -25,16 +26,16 @@ story_style = {
 }
 
 section_style = {
-    "maxWidth": "800px",
-    "margin": "0 auto",
-    "padding": "60px 40px",
+    "maxWidth": "800px",  # limit width so text/charts stay centered
+    "margin": "0 auto",  # centers the section
+    "padding": "5vw 20px",  # relative padding for responsiveness, but small horizontal padding
     "backgroundColor": BG_COLOR,
     "color": TEXT_COLOR,
 }
 
 hero_style = {
     "textAlign": "center",
-    "padding": "85px 40px 80px",
+    "padding": "10vh 20px 8vh",  # top/bottom padding responsive, horizontal fixed small
     "background": "#FFFFE0",
     "color": TEXT_COLOR,
     "marginBottom": "0",
@@ -45,36 +46,39 @@ hero_style = {
 
 chart_section_style = {
     "backgroundColor": "#FFFFEF",
-    "padding": "60px 0",
+    "padding": "5vh 20px",
     "marginBottom": "0",
-    "boxSizing": "border_box",
+    "boxSizing": "border-box",
     "width": "100%",
 }
 
-chart_container_style = {"maxWidth": "1100px", "margin": "0 auto", "padding": "0 40px"}
+chart_container_style = {
+    "maxWidth": "1100px",  # keeps chart width reasonable on large screens
+    "margin": "0 auto",  # centers the chart
+    "width": "100%",
+    "padding": "0 20px",  # horizontal padding
+}
 
 controls_style = {
-    "backgroundColor": "#FFFFEF",
-    "padding": "30px",
-    "borderRadius": "12px",
-    "marginBottom": "30px",
+    "flex": "0 0 220px",
     "display": "flex",
-    "gap": "30px",
-    "alignItems": "center",
-    "flexWrap": "wrap",
-    "color": TEXT_COLOR,
+    "flexDirection": "column",
+    "alignItems": "flex-start",
+    "paddingRight": "20px",
+    "marginTop": "160px",
+    "fontSize": "13px",
 }
 
 conclusion_section_style = {
     "width": "100%",
     "backgroundColor": TEXT_COLOR,
-    "padding": "30px 20px",
+    "padding": "2em 20px",
     "boxSizing": "border-box",
 }
 
 conclusion_references_style = {
     "fontFamily": "Satoshi, sans-serif",
-    "fontSize": "14px",
+    "fontSize": "0.9em",
     "color": "#FFFFFF",
     "fontStyle": "bold",
     "textAlign": "left",
@@ -84,6 +88,90 @@ conclusion_references_style = {
     "boxSizing": "border-box",
     "margin": "0 auto",
 }
+
+
+def get_chart_container_style(breakpoint, **overrides):
+    """
+    Changes the chart container area depending on screen size
+    """
+    styles = {
+        "mobile": {
+            "maxWidth": "100%",
+            "margin": "0 auto",
+            "width": "100%",
+            "padding": "0 10px",
+        },
+        "tablet": {
+            "maxWidth": "900px",
+            "margin": "0 auto",
+            "width": "100%",
+            "padding": "0 15px",
+        },
+        "desktop": {
+            "maxWidth": "1000px",
+            "margin": "0 auto",
+            "width": "100%",
+            "padding": "0 20px",
+        },
+        "large": {
+            "maxWidth": "1200px",
+            "margin": "0 auto",
+            "width": "100%",
+            "padding": "0 30px",
+            "minHeight": "800px",
+        },
+    }
+    style = styles.get(breakpoint, styles["desktop"])
+    style.update(overrides)
+    return style
+
+
+def get_controls_style(breakpoint):
+    """Controls (dropdowns, buttons etc)"""
+    styles = {
+        "mobile": {
+            "flex": "0 0 220px",
+            "display": "flex",
+            "flexDirection": "row",
+            "alignItems": "flex-start",
+            "paddingRight": "20px",
+            "marginTop": "160px",
+            "fontSize": "10px",
+        },
+        "tablet": {
+            "flex": "0 0 220px",
+            "display": "flex",
+            "flexDirection": "row",
+            "alignItems": "flex-start",
+            "paddingRight": "20px",
+            "marginTop": "160px",
+            "fontSize": "12px",
+        },
+        "desktop": {
+            "flex": "0 0 200px",
+            "display": "flex",
+            "flexDirection": "column",
+            "alignItems": "flex-start",
+            "paddingRight": "50px",
+            "marginTop": "140px",
+            "backgroundColor": "#FFFFEF",
+            "color": TEXT_COLOR,
+            "fontSize": "13px",
+        },
+        "large": {
+            "flex": "0 0 220px",
+            "display": "flex",
+            "flexDirection": "column",
+            "alignItems": "flex-start",
+            "paddingRight": "20px",
+            "marginTop": "200px",
+            "marginLeft": "-60px",
+            "backgroundColor": "#FFFFEF",
+            "color": TEXT_COLOR,
+            "fontSize": "16px",
+        },
+    }
+    return styles.get(breakpoint, styles["desktop"])
 
 
 # ============================================================================
@@ -112,6 +200,12 @@ county_options = [
 def create_layout():
     layout = html.Div(
         [
+            # Add breakpoints component
+            WindowBreakpoints(
+                id="breakpoint",
+                widthBreakpointThresholdsPx=[768, 1024, 1440],
+                widthBreakpointNames=["mobile", "tablet", "desktop", "large"],
+            ),
             # Hero Section
             html.Div(
                 [
@@ -141,6 +235,15 @@ def create_layout():
                             "margin": "0 auto",
                             "fontWeight": "500",
                             "color": TEXT_COLOR,
+                        },
+                    ),
+                    html.P(
+                        "David Bengtegård Eksell",
+                        style={
+                            "fontSize": "17px",
+                            "margin": "40px auto -10px",
+                            "fontWeight": "400",
+                            "color": "#26848D",
                         },
                     ),
                 ],
@@ -326,7 +429,7 @@ def create_layout():
                                                         options=medication_options,
                                                         value="All medications",
                                                         style={
-                                                            "minWidth": "200px",
+                                                            "minWidth": "180px",
                                                             "boxShadow": "none",
                                                             "backgroundColor": BG_COLOR,
                                                             "color": TEXT_COLOR,
@@ -423,21 +526,18 @@ def create_layout():
                                                 ]
                                             ),
                                         ],
-                                        style={
-                                            "flex": "0 0 220px",
-                                            "display": "flex",
-                                            "flexDirection": "column",
-                                            "alignItems": "flex-start",
-                                            "paddingRight": "20px",
-                                            "marginTop": "200px",
-                                        },
+                                        id="line-controls-style",
+                                        style=controls_style,
                                     ),
                                     # Line chart (right side)
                                     html.Div(
                                         [
                                             dcc.Graph(
                                                 id="line-animation",
+                                                config={"responsive": True},
                                                 style={
+                                                    "width": "100%",
+                                                    "margin": "0 0 0 20px",
                                                     "backgroundColor": BG_COLOR,
                                                     "borderRadius": "12px",
                                                     "boxShadow": "0 4px 12px rgba(0,0,0,0.3)",
@@ -475,6 +575,7 @@ def create_layout():
                                                     id="bar-chart",
                                                     style={
                                                         "display": "none",
+                                                        "width": "100%",
                                                         "borderRadius": "12px",
                                                         "backgroundColor": BG_COLOR,
                                                     },
@@ -486,12 +587,20 @@ def create_layout():
                                                 },
                                             ),
                                         ],
-                                        style={"flex": "1"},
+                                        style={
+                                            "flex": "1",
+                                        },
                                     ),
                                 ],
-                                style={"display": "flex", "alignItems": "flex-start"},
+                                style={
+                                    "display": "flex",
+                                    "alignItems": "flex-start",
+                                    "justifyContent": "center",
+                                    "marginLeft": "20px",
+                                },
                             ),
                         ],
+                        id="line-chart-container",
                         style=chart_container_style,
                     )
                 ],
@@ -564,8 +673,10 @@ def create_layout():
                                     "borderRadius": "12px",
                                     "boxShadow": "0 4px 12px rgba(0,0,0,0.3)",
                                 },
+                                config={"responsive": True},
                             ),
                         ],
+                        id="ratio-chart-container",
                         style=chart_container_style,
                     )
                 ],
@@ -815,14 +926,8 @@ def create_layout():
                                                 style={"marginBottom": "20px"},
                                             ),
                                         ],
-                                        style={
-                                            "flex": "0 0 220px",
-                                            "display": "flex",
-                                            "flexDirection": "column",
-                                            "alignItems": "flex-start",
-                                            "paddingRight": "20px",
-                                            "marginTop": "200px",
-                                        },
+                                        id="choropleth-controls-style",
+                                        style=controls_style,
                                     ),
                                     # Choropleth map and controls (right side)
                                     html.Div(
@@ -867,6 +972,7 @@ def create_layout():
                                             # Map
                                             dcc.Graph(
                                                 id="choropleth-map",
+                                                config={"responsive": True},
                                                 style={
                                                     "backgroundColor": BG_COLOR,
                                                     "borderRadius": "12px",
@@ -888,9 +994,13 @@ def create_layout():
                                         style={"flex": "1"},
                                     ),
                                 ],
-                                style={"display": "flex", "alignItems": "flex-start"},
+                                style={
+                                    "display": "flex",
+                                    "alignItems": "flex-start",
+                                },
                             ),
                         ],
+                        id="choropleth-chart-container",
                         style=chart_container_style,
                     )
                 ],
@@ -952,7 +1062,7 @@ def create_layout():
                                                         options=medication_options,
                                                         value="All medications",
                                                         style={
-                                                            "minWidth": "200px",
+                                                            "minWidth": "180px",
                                                             "boxShadow": "none",
                                                             "backgroundColor": BG_COLOR,
                                                             "color": TEXT_COLOR,
@@ -979,7 +1089,7 @@ def create_layout():
                                                         options=county_options,
                                                         value="All counties",
                                                         style={
-                                                            "minWidth": "200px",
+                                                            "minWidth": "180px",
                                                             "boxShadow": "none",
                                                             "backgroundColor": BG_COLOR,
                                                             "color": TEXT_COLOR,
@@ -1076,13 +1186,15 @@ def create_layout():
                                                 ]
                                             ),
                                         ],
+                                        id="heatmap-controls-style",
                                         style={
                                             "flex": "0 0 220px",
                                             "display": "flex",
                                             "flexDirection": "column",
                                             "alignItems": "flex-start",
                                             "paddingRight": "20px",
-                                            "marginTop": "160px",
+                                            "marginTop": "100px",
+                                            "fontSize": "13px",
                                         },
                                     ),
                                     # County heatmap chart (right side)
@@ -1090,6 +1202,7 @@ def create_layout():
                                         [
                                             dcc.Graph(
                                                 id="county-heatmap",
+                                                config={"responsive": True},
                                                 style={
                                                     "backgroundColor": BG_COLOR,
                                                     "borderRadius": "12px",
@@ -1112,9 +1225,14 @@ def create_layout():
                                         style={"flex": "1"},
                                     ),
                                 ],
-                                style={"display": "flex", "alignItems": "flex-start"},
+                                style={
+                                    "display": "flex",
+                                    "alignItems": "flex-start",
+                                    "marginLeft": "-120px",
+                                },
                             ),
                         ],
+                        id="heatmap-chart-container",
                         style=chart_container_style,
                     )
                 ],
