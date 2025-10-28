@@ -19,10 +19,10 @@ from config import (
     GENDER_COLORS,
     bengtegard_template,
 )
-from layouts import get_chart_container_style, get_controls_style
+from src.layouts import get_chart_container_style, get_controls_style
 
 # Import data processing functions
-from data_processing import (
+from src.data_processing import (
     load_processed_csv,
     load_and_process_all_data,
     create_cumulative_data,
@@ -30,7 +30,7 @@ from data_processing import (
 )
 
 # Import visualization helpers
-from visualizations import (
+from src.visualizations import (
     plot_gender_ratios,
     prepare_choropleth_data,
     get_national_trend_context,
@@ -352,7 +352,7 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             color="year",
             facet_col="sex",
             barmode="group",
-            color_discrete_map={"2020": "#4ADFB2", "2024": "#1B9E77"},
+            color_discrete_map={"2020": "#E8896B", "2024": "#1B9E77"},
             labels={
                 "age_group": "Age Group",
                 "patients_per_1000": "Patients per 1000 inhabitants",
@@ -493,7 +493,7 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
                 labels={"patients_per_1000": "Patients per 1,000"},
                 nbinsx=len(df_heat["year"].unique()),
                 text_auto=False,
-                color_continuous_scale="YlGnBu",
+                color_continuous_scale="Viridis",
             )
 
             heatmap_fig.update_layout(
@@ -733,7 +733,7 @@ def register_callbacks(app, df_grouped_national, df_grouped_regional, geojson_co
             locations="county_geo",
             featureidkey="properties.name",
             color="patients_per_1000",
-            color_continuous_scale=px.colors.sequential.OrRd,
+            color_continuous_scale="Plasma",
             range_color=[0, color_scale_max],
             labels={"patients_per_1000": "Patients per 1000"},
             hover_name="county",

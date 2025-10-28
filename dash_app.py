@@ -9,9 +9,6 @@ import sys
 import os
 import dash
 
-# Add src to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
-
 from src.layouts import create_layout
 from src.callbacks import register_callbacks
 from src.data_processing import (
@@ -31,7 +28,7 @@ geojson_counties = load_geojson()
 # Assign layout
 app.layout = create_layout()
 
-# Expose Flash server for gunicorn
+# Expose Flask server for gunicorn
 server = app.server
 
 # Register callbacks

@@ -22,13 +22,13 @@ def apply_responsive_layout(
 
     KEY FIX: Ratio charts need more right margin for legend placement
     """
-    fig.update_layout(autosize=True)  # Changed from False - lets it adapt
+    fig.update_layout(autosize=True)
 
     # Define configs per breakpoint
     if breakpoint == "mobile":
         h = {"bar": 300, "ratio": 350}.get(chart_type, min(height or 400, 400))
         font_size = 8
-        # Ratio charts: legend below (horizontal), more bottom margin
+
         if chart_type == "ratio":
             margin = dict(l=40, r=20, t=40, b=80)  # More bottom space for legend
             legend_config = dict(
@@ -63,7 +63,7 @@ def apply_responsive_layout(
     elif breakpoint == "tablet":
         h = {"bar": 400, "ratio": 450}.get(chart_type, min(height or 500, 500))
         font_size = 10
-        # Ratio charts need MORE right margin for legend
+
         if chart_type == "ratio":
             margin = dict(l=50, r=100, t=50, b=50)  # Extra right space
             legend_config = dict(
@@ -100,7 +100,7 @@ def apply_responsive_layout(
             chart_type, min(height or 650, 650)
         )
         font_size = 12
-        # Ratio charts need MORE right margin
+
         if chart_type == "ratio":
             margin = dict(l=65, r=80, t=60, b=65)  # Extra right space
             legend_config = dict(
@@ -137,7 +137,7 @@ def apply_responsive_layout(
             chart_type, min(height or 800, 800)
         )
         font_size = 12
-        # Large screens have enough space
+
         if chart_type == "ratio":
             margin = dict(l=70, r=130, t=70, b=70)
             legend_config = dict(
@@ -166,7 +166,7 @@ def apply_responsive_layout(
                 y=0.99,
                 xanchor="left",
                 x=1.02,
-                font=dict(size=8),
+                font=dict(size=11),
             )
 
     else:

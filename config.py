@@ -74,20 +74,7 @@ PROCESSED_DATA_PATH = "data/processed/"
 
 # Define colors and fonts from my theme
 BG_COLOR = "#FFFFFA"
-TEXT_COLOR = "#0D5C63"
-BAR_PALETTE = ["#72B0AB", "#BCDDDC", "#FFEDD1", "#FDC1B4", "#FE9179", "#F1606C"]
-GRADIENT_COLORS = [
-    "#3B4D57",
-    "#3C5A63",
-    "#3D6670",
-    "#3E7480",
-    "#3F8290",
-    "#40869F",
-    "#4191AE",
-    "#429DBD",
-    "#43A9CC",
-    "#44B5DB",
-]
+TEXT_COLOR = "#073E44"
 
 # Create a custom Plotly template
 bengtegard_template = go.layout.Template(
@@ -133,7 +120,7 @@ GENDER_COLORS = {
     "Young men": "#1B9E77",
     "Girls": "#9467BD",
     "Young women": "#9467BD",
-    "Both sexes": "#4ADFB2",
+    "Both sexes": "#E8896B",  # Coral/salmon
 }
 
 FACET_COLORS = {

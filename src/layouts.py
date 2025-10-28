@@ -240,18 +240,21 @@ def create_layout():
                         style={
                             "fontSize": "18px",
                             "maxWidth": "600px",
-                            "margin": "0 auto",
+                            "margin": "0 auto 40px",
                             "fontWeight": "500",
                             "color": TEXT_COLOR,
                         },
                     ),
-                    html.P(
+                    html.A(
                         "David Bengtegård Eksell",
+                        href="https://github.com/Bengtegard",
+                        target="_blank",
                         style={
                             "fontSize": "17px",
-                            "margin": "40px auto -10px",
                             "fontWeight": "400",
-                            "color": "#26848D",
+                            "color": TEXT_COLOR,
+                            "display": "block",
+                            "textDecoration": "underline",
                         },
                     ),
                 ],
@@ -355,7 +358,7 @@ def create_layout():
                                     "textDecoration": "underline",
                                 },
                             ),
-                            ", a database that records all prescription medications dispensed in Sweden since 2006. Data were extracted via Socialstyrelsen's API using a custom Python module, allowing separate retrieval of prescription data for each ADHD medication. The analysis tracks the annual number of individuals filling ADHD prescriptions from 2006 to 2024 as a proxy for diagnosis and treatment rates, examining whether growth in medication use varies across four age groups (5-9, 10-14, 15-19, 20-24) and between sexes.",
+                            ", a database that records all prescription medications dispensed in Sweden since 2006. Data were extracted via Socialstyrelsen's API using a custom Python module, allowing separate retrieval of prescription data for each ADHD medication. The analysis tracks the annual number of individuals filling ADHD prescriptions from 2006 to 2024 as a proxy for diagnosis and treatment rates. Growth in medication use is examined across four age groups (5-9, 10-14, 15-19, 20-24) and between sexes, with classifications following the definitions provided by Socialstyrelsen’s Statistikdatabas.",
                         ],
                         style={
                             "fontSize": "17px",
@@ -478,7 +481,7 @@ def create_layout():
                                                         },
                                                         style={
                                                             "color": TEXT_COLOR,
-                                                            "accent-color": "#4ADFB2",
+                                                            "accent-color": "#1B9E77",
                                                         },
                                                     ),
                                                 ],
@@ -524,7 +527,7 @@ def create_layout():
                                                         },
                                                         style={
                                                             "color": TEXT_COLOR,
-                                                            "accent-color": "#4ADFB2",
+                                                            "accent-color": "#1B9E77",
                                                         },
                                                     ),
                                                 ]
@@ -556,7 +559,7 @@ def create_layout():
                                                     style={
                                                         "width": "50%",
                                                         "padding": "10px",
-                                                        "backgroundColor": "#1B9E77",
+                                                        "backgroundColor": "#E8896B",
                                                         "color": "white",
                                                         "border": "none",
                                                         "boxShadow": "0 4px 12px rgba(0,0,0,0.3)",
@@ -829,7 +832,7 @@ def create_layout():
                                                         },
                                                         style={
                                                             "color": TEXT_COLOR,
-                                                            "accent-color": "#4ADFB2",
+                                                            "accent-color": "#1B9E77",
                                                         },
                                                     ),
                                                 ],
@@ -875,7 +878,7 @@ def create_layout():
                                                         },
                                                         style={
                                                             "color": TEXT_COLOR,
-                                                            "accent-color": "#4ADFB2",
+                                                            "accent-color": "#1B9E77",
                                                         },
                                                     ),
                                                 ],
@@ -904,7 +907,7 @@ def create_layout():
                                                                     "marginRight": "8px",
                                                                     "padding": "6px 12px",
                                                                     "fontSize": "12px",
-                                                                    "backgroundColor": "#4ADFB2",
+                                                                    "backgroundColor": "#1B9E77",
                                                                     "color": BG_COLOR,
                                                                     "cursor": "pointer",
                                                                     "border": "none",
@@ -1014,7 +1017,7 @@ def create_layout():
             ),
             # Interval component for choropleth animation
             dcc.Interval(
-                id="choropleth-interval", interval=1000, n_intervals=0, disabled=True
+                id="choropleth-interval", interval=750, n_intervals=0, disabled=True
             ),
             # Store for animation state
             dcc.Store(
@@ -1140,7 +1143,7 @@ def create_layout():
                                                         },
                                                         style={
                                                             "color": TEXT_COLOR,
-                                                            "accent-color": "#4ADFB2",
+                                                            "accent-color": "#1B9E77",
                                                         },
                                                     ),
                                                 ],
@@ -1186,7 +1189,7 @@ def create_layout():
                                                         },
                                                         style={
                                                             "color": TEXT_COLOR,
-                                                            "accent-color": "#4ADFB2",
+                                                            "accent-color": "#1B9E77",
                                                         },
                                                     ),
                                                 ]
@@ -1382,7 +1385,15 @@ def create_layout():
                             ),
                             html.P(
                                 [
-                                    "This dashboard is built using Dash and Plotly Express. The data and code behind this project ",
+                                    "This dashboard is built using Dash and Plotly Express - ",
+                                    html.Span(
+                                        "currently optimized for desktop only.",
+                                        style={
+                                            "fontStyle": "italic",
+                                            "color": "#CCCCCC",
+                                        },
+                                    ),
+                                    " The data and code behind this project ",
                                     html.A(
                                         "are available on Github",
                                         href="https://github.com/Bengtegard/adhd_meds_sweden.git",
