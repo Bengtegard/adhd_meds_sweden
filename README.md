@@ -52,4 +52,10 @@ Open your web browser and navigate to:
 ```
 http://127.0.0.1:8050
 ```
+## License
 
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
