@@ -15,12 +15,13 @@ Individual medication data (by ATC codes) were extracted via Socialstyrelsen's o
 <img src="https://github.com/user-attachments/assets/6474f625-b7cf-4258-a4f5-fdf18af3f3bb" width="800" alt="National Dashboard" />
 <img src="https://github.com/user-attachments/assets/e8cd05d5-fa06-4b58-9680-2a8abbd4d76b" width="800" alt="County View" />
 
+## Running Locally
 
-## Prerequisites
+### Prerequisites
 
 - Python 3.12 or higher
 
-## Setup
+### Installation
 
 Follow these steps to set up and run the project locally:
 
