@@ -1,6 +1,8 @@
 # ADHD Medications Sweden - Dash App
 
 
+<img width="1303" height="961" alt="Screenshot from 2025-10-30 13-06-25" src="https://github.com/user-attachments/assets/6474f625-b7cf-4258-a4f5-fdf18af3f3bb" />
+
 
 <img width="1349" height="998" alt="Screenshot from 2025-10-30 13-03-08" src="https://github.com/user-attachments/assets/e8cd05d5-fa06-4b58-9680-2a8abbd4d76b" />
 
