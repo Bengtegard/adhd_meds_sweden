@@ -1,9 +1,13 @@
 # ADHD Medications Sweden - Dash App
 
+
+
+<img width="1349" height="998" alt="Screenshot from 2025-10-30 13-03-08" src="https://github.com/user-attachments/assets/e8cd05d5-fa06-4b58-9680-2a8abbd4d76b" />
+
+
 ## Prerequisites
 
-- Python 3.8 or higher (Python 3.12 recommended)
-- pip (Python package manager)
+- Python 3.12 or higher
 
 ## Setup
 
@@ -15,7 +19,7 @@ git clone https://github.com/bengtegard/adhd_meds_sweden
 cd adhd_meds_sweden
 ```
 
-### 2. Create a virtual environment (recommended)
+### 2. Create a virtual environment
 ```bash
 # Create virtual environment
 python3 -m venv venv
@@ -53,8 +57,3 @@ adhd_meds_sweden/
 └── data/               # Data files (if applicable)
 ```
 
-## Deactivating the virtual environment
-When you're done, deactivate the virtual environment:
-```bash
-deactivate
-```
