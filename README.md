@@ -1,16 +1,16 @@
 # The Rise of ADHD Medication in Sweden
 
-This interactive dashboard, built with Dash and Plotly Express, analyzes ADHD medication consumption trends in Sweden from 2006 to 2024. Unlike static reports, this dashboard lets you actively explore the data — filter by demographics, hover for details, and animate trends over time. Key insights are highlighted, but the real value comes from exploring the data yourself. The application is hosted on DigitalOcean.
+This interactive dashboard, built with Dash and Plotly Express, analyzes ADHD medication consumption trends in Sweden from 2006 to 2024. Unlike static reports, this dashboard lets you actively explore the data — filter by demographics, hover for details, and animate trends over time. Key insights are highlighted, but the real value comes from exploring the data yourself.
 
-**The live dashboard can be found here:** [https://bengtegard.com/](https://bengtegard.com/)
+**Live demo:** [https://bengtegard.com/](https://bengtegard.com/) (hosted on DigitalOcean)
 
 ## Data Source
 
 Data sourced from Socialstyrelsen's [Statistikdatabas för läkemedel](https://sdb.socialstyrelsen.se/if_lak/val.aspx).
 
-Individual medication data (by ATC codes) were extracted via Socialstyrelsen's official API using my custom Python module: [**socialstyrelsen-api**](https://github.com/bengtegard/swedish-adhd-medication-data) (MIT License).
+Individual medication data (by ATC codes) were extracted via Socialstyrelsen's official API using my custom Python module: [**swedish-adhd-medication-data**](https://github.com/bengtegard/swedish-adhd-medication-data) (MIT License).
 
-## Previews
+## Screenshots
 
 <img src="https://github.com/user-attachments/assets/6474f625-b7cf-4258-a4f5-fdf18af3f3bb" width="800" alt="National Dashboard" />
 <img src="https://github.com/user-attachments/assets/e8cd05d5-fa06-4b58-9680-2a8abbd4d76b" width="800" alt="County View" />
