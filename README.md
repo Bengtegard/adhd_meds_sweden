@@ -2,7 +2,9 @@
 
 This interactive dashboard, built with Dash and Plotly Express, analyzes ADHD medication consumption trends in Sweden from 2006 to 2024. Unlike static reports, this dashboard lets you actively explore the data — filter by demographics, hover for details, and animate trends over time. Key insights are highlighted, but the real value comes from exploring the data yourself.
 
-**Live demo:** [https://bengtegard.com/](https://bengtegard.com/) (hosted on DigitalOcean)
+**Live dashboard:** [https://bengtegard.com/](https://bengtegard.com/) (hosted on DigitalOcean)
+
+*Note: Currently optimized for desktop viewing*
 
 ## Data Source
 
