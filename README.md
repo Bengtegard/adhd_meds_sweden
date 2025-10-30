@@ -1,8 +1,6 @@
 # The Rise of ADHD Medication in Sweden
 
-An interactive Dash application analyzing ADHD medication consumption trends in Sweden from 2006 to 2024, using open data from Socialstyrelsen.
-
-Unlike static reports, this dashboard lets you actively explore the data — filter by demographics, hover for details, and animate trends over time.
+An interactive Dash application analyzing ADHD medication consumption trends in Sweden from 2006 to 2024, using open data from Socialstyrelsen. Unlike static reports, this dashboard lets you actively explore the data — filter by demographics, hover for details, and animate trends over time.
 
 **The live dashboard can be found here:** [https://bengtegard.com/](https://bengtegard.com/)
 ## Dashboard views
